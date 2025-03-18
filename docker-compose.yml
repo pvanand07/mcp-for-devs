@@ -1,0 +1,22 @@
+services:
+  server:
+    build: 
+      context: ./server
+    ports:
+      - "3001:3000"
+    networks:
+      - mcp-network
+
+  client:
+    build: 
+      context: ./client
+    depends_on:
+      - server
+    environment:
+      - SERVER_URL=http://server:3000/sse
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge
